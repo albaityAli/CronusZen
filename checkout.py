@@ -20,12 +20,15 @@ class Profiles:
         self.expiry = expiry
         self.name_on_card = name_on_card
 
+
     def type(self, xpath, keys):
         return driver.find_element_by_xpath(xpath).send_keys(keys)
+
 
     def press(self, xpath):
         x = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, xpath)))
         x.click()
+
 
     def buy(self, count):
         if count != 1:
@@ -35,6 +38,9 @@ class Profiles:
         driver = webdriver.Chrome(executable_path=r"C:\Users\aalba\OneDrive\Desktop\chromedriver.exe")
         driver.get(
             "https://collectiveminds-uk.myshopify.com/products/cronus-zen")
+
+        driver.implicitly_wait(8)
+
         self.press("//*[@id='AddToCartForm-product-template']/div[2]/div/div/div/div/button[1]")
 
         driver.implicitly_wait(8)
@@ -60,7 +66,7 @@ class Profiles:
         driver.switch_to.parent_frame()
 
         driver.switch_to.frame(driver.find_element_by_xpath("//*[contains(@id, 'card-fields-name-')]"))
-        driver.find_element_by_id("name").send_keys(self.card_number)
+        driver.find_element_by_id("name").send_keys(self.name_on_card)
         driver.switch_to.parent_frame()
 
         driver.switch_to.frame(driver.find_element_by_xpath("//*[contains(@id, 'card-fields-expiry-')]"))
@@ -85,9 +91,8 @@ class Profiles:
             return ["failed", self.name_on_card, self.email]
 
 
+#subsitute the instance below with the appropriate arguments
 
+#the format is name = Profiles("email", "first name", "last name", "postcode", "address", "phone number", "city", "card number", "security code", "expiry date", "name on card")
 
-
-
-
-
+john = Profiles("johndoe@email.com", "john", "doe", "X123 1XY", "123 lorem ipsum", "01234567890", "London", "0123456789876543", "123", "01/23", "john doe")
